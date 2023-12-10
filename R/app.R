@@ -5,10 +5,18 @@
 #' @param app App object.
 #' @param ui App UI function.
 #' @param server App server function.
-#' @param config Function that returns the configuration.
+#' @param get_config Function that returns the configuration.
+#' @param restore_tabs Function that restores the tabs.
+#' @param ... passed to [shiny::shinyApp()]
+#'
+#' @name save
 #'
 #' @export
-with_block_app <- \(app, config = get_json){
+with_block_app <- \(
+  app, 
+  get_config = get_json,
+  restore_tabs = bs_restore_tabs
+){
   server_fn <- app$serverFuncSource()
 
   app$serverFuncSource <- \(){
@@ -28,7 +36,7 @@ with_block_app <- \(app, config = get_json){
         stop("server function must accept ui and server arguments")
 
       conf <- tryCatch(
-        config(),
+        get_config(),
         error = \(e) NULL
       )
 
@@ -53,7 +61,18 @@ with_block_app <- \(app, config = get_json){
   return(app)
 }
 
-block_app <- \(ui, server, config = get_json, ...){
+#' @rdname save
+#' @export
+block_app <- \(
+  ui, 
+  server, 
+  get_config = get_json, 
+  restore_tabs = bs_restore_tabs,
+  ...
+){
   shiny::shinyApp(ui, server, ...) |>
-    with_block_app(config = config)
+    with_block_app(
+      get_config = get_config,
+      restore_tabs = restore_tabs
+    )
 }

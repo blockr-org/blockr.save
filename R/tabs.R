@@ -1,12 +1,18 @@
-#' Restore Tab
-restore_tabs <- \(config) {
+#' Restore Tabs
+#' 
+#' Restore tabs from a config object.
+#' 
+#' @param config A config object.
+#' 
+#' @export
+bs_restore_tabs <- \(config) {
   purrr::walk(config$tabs$tabs, \(tab){
-    insertTab(
+    shiny::insertTab(
       config$tab$id,
-      tabPanel(
+      shiny::tabPanel(
         tab$label,
         id = tab$id,
-        HTML(tab$content)
+        shiny::HTML(tab$content)
       )
     )
   })

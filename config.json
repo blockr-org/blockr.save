@@ -2,11 +2,12 @@
   "tabs": {
     "id": "nav",
     "tabs": {
-      "newtab": {
-        "label": "Newtab",
-        "id": "newtab",
-        "content": "<h1>Tab<\/h1>",
-        "stacks": []
+      "hello world": {
+        "label": "Hello world",
+        "id": "hello world",
+        "content": "<div id=\"hello_world-grid\" data-styles=\"{&quot;rows&quot;:{&quot;min-height&quot;:&quot;5rem&quot;},&quot;items&quot;:{&quot;margin&quot;:&quot;1rem&quot;}}\" class=\"masonry-grid \">\n  <div class=\"masonry-grid-content\">\n    <div class=\"masonry-row position-relative d-flex bg-success\"><\/div>\n  <\/div>\n<\/div>",
+        "stacks": [],
+        "custom": []
       }
     }
   },

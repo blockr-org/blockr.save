@@ -11,7 +11,7 @@ set_tab_id <- \(id){
   storage$store$tabs$id <- id
 }
 
-set_tab <- \(label, ..., content = list(), id = label) {
+set_tab <- \(label, ..., content = list(), id = label, custom = list()) {
   content <- as.character(content)
 
   if(length(content) == 0L)
@@ -21,7 +21,8 @@ set_tab <- \(label, ..., content = list(), id = label) {
     label = label, 
     id = id, 
     content = content,
-    stacks = list(...)
+    stacks = list(...),
+    custom = custom
   )
 }
 
