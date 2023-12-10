@@ -1,0 +1,14 @@
+{
+  "tabs": {
+    "id": "nav",
+    "tabs": {
+      "newtab": {
+        "label": "Newtab",
+        "id": "newtab",
+        "content": "<h1>Tab<\/h1>",
+        "stacks": []
+      }
+    }
+  },
+  "stacks": []
+}
