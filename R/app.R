@@ -40,17 +40,17 @@ with_block_app <- \(
         error = \(e) NULL
       )
 
+      session$onSessionEnded(\(){
+        cat("saving to config\n")
+        serialise_env()
+      })
+
       if(is.null(conf)){
         warning("Could not get config")
         return(app)
       }
 
       cat("loading from config\n")
-
-      session$onSessionEnded(\(){
-        cat("saving to config\n")
-        serialise_env()
-      })
 
       restore_tabs(conf)
 

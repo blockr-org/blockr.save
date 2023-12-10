@@ -70,6 +70,7 @@ server <- \(input, output, session){
       input$title, 
       id = tolower(input$title),
       content = tagList(
+        h1(input$title),
         masonry::masonryGrid(
           id = id,
           masonry::masonryRow(classes = "bg-success"),
