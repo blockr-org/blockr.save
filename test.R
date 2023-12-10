@@ -21,13 +21,14 @@ ui <- navbarPage(
   theme = bslib::bs_theme(),
   id = "nav",
   header = list(
+    blockr.ui:::dependency("stack"),
     masonry::masonryDependencies()
   ),
   tabPanel(
     "First", 
     id = "first",
     h1("title"),
-    h2("suibtitle"),
+    h2("subtitle"),
     textInput("title", "Tab title"),
     actionButton("add", "Add tab"),
     generate_ui(stack)
@@ -51,6 +52,10 @@ server <- \(input, output, session){
         input$title,
         id = tolower(input$title),
         h1(input$title),
+        blockr.ui::addStackUI(
+          sprintf("%s-add", string_to_id(input$title)), 
+          ".masonry-row"
+        ),
         masonry::masonryGrid(
           id = id,
           masonry::masonryRow(classes = "bg-success"),
@@ -66,11 +71,17 @@ server <- \(input, output, session){
       )
     )
 
+    blockr.ui::add_stack_server(
+      sprintf("%s-add", string_to_id(input$title)),
+      delay = 2 * 1000
+    )
+
     set_tab(
       input$title, 
       id = tolower(input$title),
       content = tagList(
         h1(input$title),
+        blockr.ui::addStackUI(string_to_id(input$title), ".masonry-row"),
         masonry::masonryGrid(
           id = id,
           masonry::masonryRow(classes = "bg-success"),

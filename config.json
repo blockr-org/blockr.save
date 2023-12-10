@@ -1,15 +1,6 @@
 {
   "tabs": {
-    "id": "nav",
-    "tabs": {
-      "hello world": {
-        "label": "Hello world",
-        "id": "hello world",
-        "content": "<h1>Hello world<\/h1>\n<div id=\"hello_world-grid\" data-styles=\"{&quot;rows&quot;:{&quot;min-height&quot;:&quot;5rem&quot;},&quot;items&quot;:{&quot;margin&quot;:&quot;1rem&quot;}}\" class=\"masonry-grid \">\n  <div class=\"masonry-grid-content\">\n    <div class=\"masonry-row position-relative d-flex bg-success\"><\/div>\n  <\/div>\n<\/div>",
-        "stacks": [],
-        "custom": []
-      }
-    }
+    "id": "nav"
   },
   "stacks": []
 }
