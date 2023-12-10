@@ -11,8 +11,12 @@ stack <- new_stack(
 restore_tabs_mason <- \(conf){
   bs_restore_tabs(conf)
   purrr::walk(conf$tabs$tabs, \(tab) {
-    print(sprintf("#%s-grid", string_to_id(tab$id)))
-    masonry::mason(sprintf("#%s-grid", string_to_id(tab$id)), delay = 2 * 1000)
+    print(tab$id)
+    masonry::mason(sprintf("#%sGrid", tab$id), delay = 2 * 1000)
+    blockr.ui::add_stack_server(
+      sprintf("%sAdd", tab$id),
+      delay = 2 * 1000
+    )
   })
 }
 
@@ -40,24 +44,25 @@ server <- \(input, output, session){
   set_tab_id("nav")
 
   observeEvent(input$add, {
-    id <- sprintf("%s-grid", string_to_id(input$title))
+    id <- string_to_id(input$title)
+    grid_id <- sprintf("%sGrid", id)
 
     on.exit({
-      masonry::mason(sprintf("#%s", id), delay = 2 * 1000)
+      masonry::mason(sprintf("#%s", grid_id), delay = 2 * 1000)
     })
 
     insertTab(
       "nav",
       tabPanel(
         input$title,
-        id = tolower(input$title),
+        id = id,
         h1(input$title),
         blockr.ui::addStackUI(
-          sprintf("%s-add", string_to_id(input$title)), 
+          sprintf("%sAdd", id), 
           ".masonry-row"
         ),
         masonry::masonryGrid(
-          id = id,
+          id = grid_id,
           masonry::masonryRow(classes = "bg-success"),
           styles = list(
             rows = list(
@@ -72,18 +77,21 @@ server <- \(input, output, session){
     )
 
     blockr.ui::add_stack_server(
-      sprintf("%s-add", string_to_id(input$title)),
+      sprintf("%sAdd", id),
       delay = 2 * 1000
     )
 
     set_tab(
       input$title, 
-      id = tolower(input$title),
+      id = id,
       content = tagList(
         h1(input$title),
-        blockr.ui::addStackUI(string_to_id(input$title), ".masonry-row"),
+        blockr.ui::addStackUI(
+          sprintf("%sAdd", id), 
+          ".masonry-row"
+        ),
         masonry::masonryGrid(
-          id = id,
+          id = grid_id,
           masonry::masonryRow(classes = "bg-success"),
           styles = list(
             rows = list(
@@ -94,7 +102,6 @@ server <- \(input, output, session){
             )
           )
         )
-
       )
     )
   })
