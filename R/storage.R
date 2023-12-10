@@ -4,6 +4,10 @@ storage$store <- list(
   stacks = list()
 )
 
+init_conf <- \(conf){
+  storage$store <- conf
+}
+
 # will remove
 # can be picked up from UI
 # we send to server and send

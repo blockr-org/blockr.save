@@ -8,6 +8,13 @@
         "content": "<h1>hello world<\/h1>\n<div class=\"position-fixed top-0 end-0\" style=\"z-index:999\">\n  <div class=\"toast \" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" id=\"hello_worldAdd-toast\">\n    <div class=\"toast-header \">\n      <strong class=\"me-auto\">Error<\/strong>\n      <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"><\/button>\n    <\/div>\n    <div class=\"toast-body \"><\/div>\n  <\/div>\n<\/div>\n<div data-target=\".masonry-row\" class=\"add-stack-wrapper\">\n  <span class=\"add-stack badge bg-primary cursor-pointer\" draggable=\"true\" id=\"hello_worldAdd-data\">data<\/span>\n<\/div>\n<div id=\"hello_worldGrid\" data-styles=\"{&quot;rows&quot;:{&quot;min-height&quot;:&quot;5rem&quot;},&quot;items&quot;:{&quot;margin&quot;:&quot;1rem&quot;}}\" class=\"masonry-grid \">\n  <div class=\"masonry-grid-content\">\n    <div class=\"masonry-row position-relative d-flex bg-success\"><\/div>\n  <\/div>\n<\/div>",
         "stacks": [],
         "custom": []
+      },
+      "hello_again": {
+        "label": "hello again",
+        "id": "hello_again",
+        "content": "<h1>hello again<\/h1>\n<div class=\"position-fixed top-0 end-0\" style=\"z-index:999\">\n  <div class=\"toast \" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" id=\"hello_againAdd-toast\">\n    <div class=\"toast-header \">\n      <strong class=\"me-auto\">Error<\/strong>\n      <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\" aria-label=\"Close\"><\/button>\n    <\/div>\n    <div class=\"toast-body \"><\/div>\n  <\/div>\n<\/div>\n<div data-target=\".masonry-row\" class=\"add-stack-wrapper\">\n  <span class=\"add-stack badge bg-primary cursor-pointer\" draggable=\"true\" id=\"hello_againAdd-data\">data<\/span>\n<\/div>\n<div id=\"hello_againGrid\" data-styles=\"{&quot;rows&quot;:{&quot;min-height&quot;:&quot;5rem&quot;},&quot;items&quot;:{&quot;margin&quot;:&quot;1rem&quot;}}\" class=\"masonry-grid \">\n  <div class=\"masonry-grid-content\">\n    <div class=\"masonry-row position-relative d-flex bg-success\"><\/div>\n  <\/div>\n<\/div>",
+        "stacks": [],
+        "custom": []
       }
     }
   },

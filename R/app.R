@@ -39,7 +39,7 @@ with_block_app <- \(
         get_config(),
         error = \(e) NULL
       )
-
+      
       session$onSessionEnded(\(){
         cat("saving to config\n")
         serialise_env()
@@ -51,6 +51,8 @@ with_block_app <- \(
       }
 
       cat("loading from config\n")
+
+      init_conf(conf)
 
       restore_tabs(conf)
 

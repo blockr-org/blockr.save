@@ -20,6 +20,55 @@ restore_tabs_mason <- \(conf){
   })
 }
 
+insert_block_tab <- \(title){
+  id <- string_to_id(title)
+  grid_id <- sprintf("%sGrid", id)
+
+  on.exit({
+    masonry::mason(sprintf("#%s", grid_id), delay = 2 * 1000)
+  })
+
+  tab <- tagList(
+    h1(title),
+    blockr.ui::addStackUI(
+      sprintf("%sAdd", id), 
+      ".masonry-row"
+    ),
+    masonry::masonryGrid(
+      id = grid_id,
+      masonry::masonryRow(classes = "bg-success"),
+      styles = list(
+        rows = list(
+          `min-height` = "5rem"
+        ),
+        items = list(
+          margin = "1rem"
+        )
+      )
+    )
+  )
+
+  insertTab(
+    "nav",
+    tabPanel(
+      title,
+      id = id,
+      tab
+    )
+  )
+
+  blockr.ui::add_stack_server(
+    sprintf("%sAdd", id),
+    delay = 2 * 1000
+  )
+
+  set_tab(
+    title, 
+    id = id,
+    content = tab
+  )
+}
+
 ui <- navbarPage(
   "blockr.save",
   theme = bslib::bs_theme(),
@@ -44,66 +93,7 @@ server <- \(input, output, session){
   set_tab_id("nav")
 
   observeEvent(input$add, {
-    id <- string_to_id(input$title)
-    grid_id <- sprintf("%sGrid", id)
-
-    on.exit({
-      masonry::mason(sprintf("#%s", grid_id), delay = 2 * 1000)
-    })
-
-    insertTab(
-      "nav",
-      tabPanel(
-        input$title,
-        id = id,
-        h1(input$title),
-        blockr.ui::addStackUI(
-          sprintf("%sAdd", id), 
-          ".masonry-row"
-        ),
-        masonry::masonryGrid(
-          id = grid_id,
-          masonry::masonryRow(classes = "bg-success"),
-          styles = list(
-            rows = list(
-              `min-height` = "5rem"
-            ),
-            items = list(
-              margin = "1rem"
-            )
-          )
-        )
-      )
-    )
-
-    blockr.ui::add_stack_server(
-      sprintf("%sAdd", id),
-      delay = 2 * 1000
-    )
-
-    set_tab(
-      input$title, 
-      id = id,
-      content = tagList(
-        h1(input$title),
-        blockr.ui::addStackUI(
-          sprintf("%sAdd", id), 
-          ".masonry-row"
-        ),
-        masonry::masonryGrid(
-          id = grid_id,
-          masonry::masonryRow(classes = "bg-success"),
-          styles = list(
-            rows = list(
-              `min-height` = "5rem"
-            ),
-            items = list(
-              margin = "1rem"
-            )
-          )
-        )
-      )
-    )
+    insert_block_tab(input$title)
   })
 }
 
