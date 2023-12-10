@@ -44,6 +44,5 @@ get_json <- \(){
 }
 
 serialise_env <- \(fn = write_json){
-  get_env() |>
-    fn()
+  fn(get_env())
 }
