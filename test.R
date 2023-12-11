@@ -13,10 +13,14 @@ restore_tabs_mason <- \(conf){
   purrr::walk(conf$tabs$tabs, \(tab) {
     print(tab$id)
     masonry::mason(sprintf("#%sGrid", tab$id), delay = 2 * 1000)
-    blockr.ui::add_stack_server(
+    add_stack <- blockr.ui::add_stack_server(
       sprintf("%sAdd", tab$id),
       delay = 2 * 1000
     )
+
+    observeEvent(add_stack$dropped(), {
+      print(add_stack$dropped())
+    })
   })
 }
 
@@ -48,6 +52,12 @@ insert_block_tab <- \(title){
     )
   )
 
+  set_tab(
+    title, 
+    id = id,
+    content = tab
+  )
+
   insertTab(
     "nav",
     tabPanel(
@@ -57,16 +67,14 @@ insert_block_tab <- \(title){
     )
   )
 
-  blockr.ui::add_stack_server(
+  add_stack <- blockr.ui::add_stack_server(
     sprintf("%sAdd", id),
     delay = 2 * 1000
   )
 
-  set_tab(
-    title, 
-    id = id,
-    content = tab
-  )
+  observeEvent(add_stack$dropped(), {
+    print(add_stack$dropped())
+  })
 }
 
 ui <- navbarPage(
