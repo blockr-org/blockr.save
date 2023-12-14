@@ -54,7 +54,7 @@ with_block_app <- \(
 
       init_conf(conf)
 
-      restore_tabs(conf)
+      restore_tabs(conf, input, output, session)
 
       return(app)
     }

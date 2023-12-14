@@ -26,8 +26,13 @@ set_tab <- \(label, ..., content = list(), id = label, custom = list()) {
     id = id, 
     content = content,
     stacks = list(...),
-    custom = custom
+    custom = custom,
+    masonry = list()
   )
+}
+
+set_masonry <- \(tabid, conf){
+  storage$store$tabs$tabs[[tabid]]$masonry <- conf
 }
 
 get_env <- \(){

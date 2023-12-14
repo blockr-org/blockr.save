@@ -8,12 +8,14 @@ stack <- new_stack(
   data_block
 )
 
-restore_tabs_custom <- \(conf){
+restore_tabs_custom <- \(conf, input, output, session){
   bs_restore_tabs(conf)
   purrr::walk(conf$tabs$tabs, \(tab) {
+    grid_id <- sprintf("#%sGrid", tab$id)
 
     on.exit({
-      masonry::mason(sprintf("#%sGrid", tab$id), delay = 2 * 1000)
+      masonry::mason(grid_id, delay = 2 * 1000)
+      masonry::masonry_get_config(grid_id)
     })
 
     add_stack <- blockr.ui::add_stack_server(
@@ -22,28 +24,34 @@ restore_tabs_custom <- \(conf){
     )
 
     observeEvent(add_stack$dropped(), {
-      print(add_stack$dropped())
       stack <- new_stack(
         data_block
       )
 
       masonry::masonry_add_item(
-        sprintf("#%sGrid", tab$id),
+        grid_id,
         row_id = sprintf("#%s", add_stack$dropped()$target),
         item = generate_ui(stack)
       )
 
       stack_server <- generate_server(stack)
+      masonry::masonry_get_config(grid_id)
+
+      observeEvent(input[[sprintf("%s_config", grid_id)]], {
+        print(input[[sprintf("%s_config", grid_id)]])
+        set_masonry(tab$id, input[[sprintf("%s_config", grid_id)]])
+      })
     })
   })
 }
 
-insert_block_tab <- \(title){
+insert_block_tab <- \(title, input, output, session){
   id <- string_to_id(title)
   grid_id <- sprintf("%sGrid", id)
 
   on.exit({
     masonry::mason(sprintf("#%s", grid_id), delay = 2 * 1000)
+    masonry::masonry_get_config(grid_id)
   })
 
   tab <- tagList(
@@ -98,6 +106,13 @@ insert_block_tab <- \(title){
       row_id = sprintf("#%s", add_stack$dropped()$target),
       item = generate_ui(stack)
     )
+
+    stack_server <- generate_server(stack)
+
+    observeEvent(input[[sprintf("%s_config", grid_id)]], {
+      print(input[[sprintf("%s_config", grid_id)]])
+      set_masonry(tab$id, input[[sprintf("%s_config", grid_id)]])
+    })
   })
 }
 
@@ -125,7 +140,7 @@ server <- \(input, output, session){
   set_tab_id("nav")
 
   observeEvent(input$add, {
-    insert_block_tab(input$title)
+    insert_block_tab(input$title, input, output, session)
   })
 }
 
