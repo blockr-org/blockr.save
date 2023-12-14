@@ -12,7 +12,9 @@ restore_tabs_custom <- \(conf){
   bs_restore_tabs(conf)
   purrr::walk(conf$tabs$tabs, \(tab) {
 
-    masonry::mason(sprintf("#%sGrid", tab$id), delay = 2 * 1000)
+    on.exit({
+      masonry::mason(sprintf("#%sGrid", tab$id), delay = 2 * 1000)
+    })
 
     add_stack <- blockr.ui::add_stack_server(
       sprintf("%sAdd", tab$id),
@@ -30,6 +32,8 @@ restore_tabs_custom <- \(conf){
         row_id = sprintf("#%s", add_stack$dropped()$target),
         item = generate_ui(stack)
       )
+
+      stack_server <- generate_server(stack)
     })
   })
 }
