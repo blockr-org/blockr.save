@@ -8,11 +8,12 @@ stack <- new_stack(
   data_block
 )
 
-restore_tabs_mason <- \(conf){
+restore_tabs_custom <- \(conf){
   bs_restore_tabs(conf)
   purrr::walk(conf$tabs$tabs, \(tab) {
-    print(tab$id)
+
     masonry::mason(sprintf("#%sGrid", tab$id), delay = 2 * 1000)
+
     add_stack <- blockr.ui::add_stack_server(
       sprintf("%sAdd", tab$id),
       delay = 2 * 1000
@@ -20,6 +21,15 @@ restore_tabs_mason <- \(conf){
 
     observeEvent(add_stack$dropped(), {
       print(add_stack$dropped())
+      stack <- new_stack(
+        data_block
+      )
+
+      masonry::masonry_add_item(
+        sprintf("#%sGrid", tab$id),
+        row_id = sprintf("#%s", add_stack$dropped()$target),
+        item = generate_ui(stack)
+      )
     })
   })
 }
@@ -38,6 +48,7 @@ insert_block_tab <- \(title){
       sprintf("%sAdd", id), 
       ".masonry-row"
     ),
+    br(),
     masonry::masonryGrid(
       id = grid_id,
       masonry::masonryRow(classes = "bg-success"),
@@ -46,7 +57,7 @@ insert_block_tab <- \(title){
           `min-height` = "5rem"
         ),
         items = list(
-          margin = "1rem"
+          margin = ".5rem"
         )
       )
     )
@@ -74,6 +85,15 @@ insert_block_tab <- \(title){
 
   observeEvent(add_stack$dropped(), {
     print(add_stack$dropped())
+    stack <- new_stack(
+      data_block
+    )
+
+    masonry::masonry_add_item(
+      sprintf("#%s", grid_id),
+      row_id = sprintf("#%s", add_stack$dropped()$target),
+      item = generate_ui(stack)
+    )
   })
 }
 
@@ -105,4 +125,4 @@ server <- \(input, output, session){
   })
 }
 
-block_app(ui, server, enableBookmarking = "url", restore_tabs = restore_tabs_mason)
+block_app(ui, server, enableBookmarking = "url", restore_tabs = restore_tabs_custom)
