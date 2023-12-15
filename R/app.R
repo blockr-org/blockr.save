@@ -7,6 +7,7 @@
 #' @param server App server function.
 #' @param get_config Function that returns the configuration.
 #' @param restore_tabs Function that restores the tabs.
+#' @param save_config Function that saves the configuration.
 #' @param custom Cumstom function to run after restoring tabs.
 #'  Must accept `config`, `input`, `output`, and `session` arguments.
 #' @param ... passed to [shiny::shinyApp()]
@@ -16,6 +17,7 @@
 #' @export
 with_block_app <- \(
   app, 
+  save_config = save_json,
   get_config = get_json,
   restore_tabs = bs_restore_tabs,
   custom = NULL
@@ -40,16 +42,17 @@ with_block_app <- \(
 
       conf <- tryCatch(
         get_config(),
-        error = \(e) NULL
+        error = \(e) NULL,
+        warning = \(w) NULL
       )
       
       session$onSessionEnded(\(){
         cat("saving to config\n")
-        serialise_env()
+        save_config(get_env(), input, output, session)
       })
 
       if(is.null(conf)){
-        warning("Could not get config")
+        cat("No config found\n")
         return(app)
       }
 

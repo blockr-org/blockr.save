@@ -39,7 +39,7 @@ get_env <- \(){
   storage$store
 }
 
-write_json <- \(env){
+save_json <- \(env, input, output, session){
   jsonlite::write_json(
     env, 
     "config.json", 
@@ -51,8 +51,4 @@ write_json <- \(env){
 
 get_json <- \(){
   jsonlite::read_json("config.json")
-}
-
-serialise_env <- \(fn = write_json){
-  fn(get_env())
 }
