@@ -6,13 +6,19 @@
 \alias{block_app}
 \title{blockApp}
 \usage{
-with_block_app(app, get_config = get_json, restore_tabs = bs_restore_tabs)
+with_block_app(
+  app,
+  get_config = get_json,
+  restore_tabs = bs_restore_tabs,
+  custom = NULL
+)
 
 block_app(
   ui,
   server,
   get_config = get_json,
   restore_tabs = bs_restore_tabs,
+  custom = NULL,
   ...
 )
 }
@@ -22,6 +28,9 @@ block_app(
 \item{get_config}{Function that returns the configuration.}
 
 \item{restore_tabs}{Function that restores the tabs.}
+
+\item{custom}{Cumstom function to run after restoring tabs.
+Must accept \code{config}, \code{input}, \code{output}, and \code{session} arguments.}
 
 \item{ui}{App UI function.}
 

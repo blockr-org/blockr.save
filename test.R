@@ -2,19 +2,21 @@ devtools::load_all()
 library(shiny)
 library(blockr)
 
-options(shiny.port = 3000)
+options(
+  shiny.port = 3000,
+  shiny.fullstacktrace = TRUE 
+)
 
 stack <- new_stack(
   data_block
 )
 
-restore_tabs_custom <- \(conf, input, output, session){
-  bs_restore_tabs(conf)
+restore_custom <- \(conf, input, output, session){
   purrr::walk(conf$tabs$tabs, \(tab) {
     grid_id <- sprintf("#%sGrid", tab$id)
 
     on.exit({
-      masonry::mason(grid_id, delay = 2 * 1000)
+      masonry::mason(grid_id, delay = 1 * 1000)
     })
 
     add_stack <- blockr.ui::add_stack_server(
@@ -37,7 +39,10 @@ restore_tabs_custom <- \(conf, input, output, session){
 
       observeEvent(input[[sprintf("%s_config", grid_id)]], {
         print(input[[sprintf("%s_config", grid_id)]])
-        set_masonry(tab$id, input[[sprintf("%s_config", grid_id)]])
+        set_masonry(
+          tab$id, 
+          setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
+        )
       })
     })
   })
@@ -48,7 +53,7 @@ insert_block_tab <- \(title, input, output, session){
   grid_id <- sprintf("%sGrid", id)
 
   on.exit({
-    masonry::mason(sprintf("#%s", grid_id), delay = 2 * 1000)
+    masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
   })
 
   tab <- tagList(
@@ -108,7 +113,10 @@ insert_block_tab <- \(title, input, output, session){
 
     observeEvent(input[[sprintf("%s_config", grid_id)]], {
       print(input[[sprintf("%s_config", grid_id)]])
-      set_masonry(tab$id, input[[sprintf("%s_config", grid_id)]])
+      set_masonry(
+        id,
+        setNames(input[[sprintf("%s_config", grid_id)]], grid_id)
+      )
     })
   })
 }
@@ -141,4 +149,4 @@ server <- \(input, output, session){
   })
 }
 
-block_app(ui, server, enableBookmarking = "url", restore_tabs = restore_tabs_custom)
+block_app(ui, server, custom = restore_custom)

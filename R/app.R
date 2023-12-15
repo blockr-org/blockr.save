@@ -7,6 +7,8 @@
 #' @param server App server function.
 #' @param get_config Function that returns the configuration.
 #' @param restore_tabs Function that restores the tabs.
+#' @param custom Cumstom function to run after restoring tabs.
+#'  Must accept `config`, `input`, `output`, and `session` arguments.
 #' @param ... passed to [shiny::shinyApp()]
 #'
 #' @name save
@@ -15,7 +17,8 @@
 with_block_app <- \(
   app, 
   get_config = get_json,
-  restore_tabs = bs_restore_tabs
+  restore_tabs = bs_restore_tabs,
+  custom = NULL
 ){
   server_fn <- app$serverFuncSource()
 
@@ -56,6 +59,9 @@ with_block_app <- \(
 
       restore_tabs(conf, input, output, session)
 
+      if(!is.null(custom))
+        custom(conf, input, output, session)
+
       return(app)
     }
   }
@@ -70,11 +76,13 @@ block_app <- \(
   server, 
   get_config = get_json, 
   restore_tabs = bs_restore_tabs,
+  custom = NULL,
   ...
 ){
   shiny::shinyApp(ui, server, ...) |>
     with_block_app(
       get_config = get_config,
-      restore_tabs = restore_tabs
+      restore_tabs = restore_tabs,
+      custom = custom
     )
 }
