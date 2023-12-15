@@ -4,17 +4,35 @@ storage$store <- list(
   stacks = list()
 )
 
+#' Store loaded config
+#' 
+#' Store the initially loaded config in the storage environment.
+#' 
+#' @param conf The config object.
+#' 
+#' @keywords internal
 init_conf <- \(conf){
   storage$store <- conf
 }
 
-# will remove
+# idially we'd remove this
 # can be picked up from UI
 # we send to server and send
 set_tab_id <- \(id){
   storage$store$tabs$id <- id
 }
 
+#' Set tab data
+#' 
+#' Set a tab's data in the storage environment.
+#' 
+#' @param label The tab's label.
+#' @param ... The tab's stacks.
+#' @param content The tab's content, other than stacks.
+#' @param id ID of tab.
+#' @param custom Custom tab data to use with a custom restore function.
+#' 
+#' @export
 set_tab <- \(label, ..., content = list(), id = label, custom = list()) {
   content <- as.character(content)
 
@@ -31,6 +49,14 @@ set_tab <- \(label, ..., content = list(), id = label, custom = list()) {
   )
 }
 
+#' Set masonry config
+#' 
+#' Set masonry config for a tab in the storage environment.
+#' 
+#' @param tabid ID of tab.
+#' @param conf Masonry config.
+#' 
+#' @export
 set_masonry <- \(tabid, conf){
   storage$store$tabs$tabs[[tabid]]$masonry <- conf
 }
@@ -39,6 +65,18 @@ get_env <- \(){
   storage$store
 }
 
+#' Save the config to a JSON file
+#' 
+#' Save the config to a JSON file.
+#' 
+#' @param env The config environment.
+#' @param input The input object.
+#' @param output The output object.
+#' @param session The session object.
+#' 
+#' @name json
+#' 
+#' @export
 save_json <- \(env, input, output, session){
   jsonlite::write_json(
     env, 
@@ -49,6 +87,8 @@ save_json <- \(env, input, output, session){
   )
 }
 
+#' @rdname json
+#' @export
 get_json <- \(){
   jsonlite::read_json("config.json")
 }

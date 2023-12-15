@@ -2,4 +2,8 @@
 
 export(block_app)
 export(bs_restore_tabs)
+export(get_json)
+export(save_json)
+export(set_masonry)
+export(set_tab)
 export(with_block_app)

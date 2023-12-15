@@ -8,6 +8,7 @@
 \usage{
 with_block_app(
   app,
+  save_config = save_json,
   get_config = get_json,
   restore_tabs = bs_restore_tabs,
   custom = NULL
@@ -24,6 +25,8 @@ block_app(
 }
 \arguments{
 \item{app}{App object.}
+
+\item{save_config}{Function that saves the configuration.}
 
 \item{get_config}{Function that returns the configuration.}
 
