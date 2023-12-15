@@ -15,7 +15,6 @@ restore_tabs_custom <- \(conf, input, output, session){
 
     on.exit({
       masonry::mason(grid_id, delay = 2 * 1000)
-      masonry::masonry_get_config(grid_id)
     })
 
     add_stack <- blockr.ui::add_stack_server(
@@ -35,7 +34,6 @@ restore_tabs_custom <- \(conf, input, output, session){
       )
 
       stack_server <- generate_server(stack)
-      masonry::masonry_get_config(grid_id)
 
       observeEvent(input[[sprintf("%s_config", grid_id)]], {
         print(input[[sprintf("%s_config", grid_id)]])
@@ -51,7 +49,6 @@ insert_block_tab <- \(title, input, output, session){
 
   on.exit({
     masonry::mason(sprintf("#%s", grid_id), delay = 2 * 1000)
-    masonry::masonry_get_config(grid_id)
   })
 
   tab <- tagList(
@@ -63,6 +60,7 @@ insert_block_tab <- \(title, input, output, session){
     br(),
     masonry::masonryGrid(
       id = grid_id,
+      send_on_change = TRUE,
       masonry::masonryRow(classes = "bg-success"),
       styles = list(
         rows = list(
@@ -95,8 +93,7 @@ insert_block_tab <- \(title, input, output, session){
     delay = 2 * 1000
   )
 
-  observeEvent(add_stack$dropped(), {
-    print(add_stack$dropped())
+  observeEvent(add_stack$dropped(), { print(add_stack$dropped())
     stack <- new_stack(
       data_block
     )
