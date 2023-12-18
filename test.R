@@ -1,5 +1,6 @@
 devtools::load_all()
 library(shiny)
+library(bslib)
 library(blockr)
 
 options(
@@ -23,6 +24,12 @@ restore_custom <- \(conf, input, output, session){
       sprintf("%sAdd", tab$id),
       delay = 2 * 1000
     )
+
+    sel <- blockr.ui::block_list_server("list")
+
+    observeEvent(sel$dropped(), {
+      print(sel$dropped())
+    })
 
     observeEvent(add_stack$dropped(), {
       stack <- new_stack(
@@ -56,7 +63,7 @@ insert_block_tab <- \(title, input, output, session){
     masonry::mason(sprintf("#%s", grid_id), delay = 1 * 1000)
   })
 
-  tab <- tagList(
+  tab <- bslib::layout_sidebar(
     h1(title),
     blockr.ui::addStackUI(
       sprintf("%sAdd", id), 
@@ -75,6 +82,10 @@ insert_block_tab <- \(title, input, output, session){
           margin = ".5rem"
         )
       )
+    ),
+    sidebar = bslib::sidebar(
+      h2("Blocks"),
+      blockr.ui::blockListUI(session$ns("list"))
     )
   )
 
@@ -98,7 +109,14 @@ insert_block_tab <- \(title, input, output, session){
     delay = 2 * 1000
   )
 
-  observeEvent(add_stack$dropped(), { print(add_stack$dropped())
+  sel <- blockr.ui::block_list_server("list")
+
+  observeEvent(sel$dropped(), {
+    print(sel$dropped())
+  })
+
+  observeEvent(add_stack$dropped(), { 
+    print(add_stack$dropped())
     stack <- new_stack(
       data_block
     )
@@ -121,14 +139,7 @@ insert_block_tab <- \(title, input, output, session){
   })
 }
 
-ui <- navbarPage(
-  "blockr.save",
-  theme = bslib::bs_theme(),
-  id = "nav",
-  header = list(
-    blockr.ui:::dependency("stack"),
-    masonry::masonryDependencies()
-  ),
+ui <- bslib::page_navbar(
   tabPanel(
     "First", 
     id = "first",
@@ -137,6 +148,12 @@ ui <- navbarPage(
     textInput("title", "Tab title"),
     actionButton("add", "Add tab"),
     generate_ui(stack)
+  ),
+  title = "blockr.save",
+  id = "nav",
+  header = list(
+    blockr.ui:::dependency("stack"),
+    masonry::masonryDependencies()
   )
 )
 
@@ -149,4 +166,4 @@ server <- \(input, output, session){
   })
 }
 
-block_app(ui, server, custom = restore_custom)
+block_app(ui, server, enableBookmarking = "url", custom = restore_custom)
