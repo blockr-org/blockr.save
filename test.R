@@ -25,13 +25,19 @@ restore_custom <- \(conf, input, output, session){
       delay = 2 * 1000
     )
 
-    sel <- blockr.ui::block_list_server("list")
-
-    observeEvent(sel$dropped(), {
-      print(sel$dropped())
-    })
-
     observeEvent(add_stack$dropped(), {
+      sel <- blockr.ui::block_list_server(
+        sprintf("%sList", id),
+        delay = 2 * 1000
+      )
+
+      new_block <- eventReactive(sel$dropped(), {
+        list(
+          position = NULL,
+          block = available_blocks()[sel$dropped()$index][[1]]
+        )
+      })
+
       stack <- new_stack(
         data_block
       )
@@ -85,7 +91,7 @@ insert_block_tab <- \(title, input, output, session){
     ),
     sidebar = bslib::sidebar(
       h2("Blocks"),
-      blockr.ui::blockListUI(session$ns("list"))
+      blockr.ui::blockListUI(sprintf("%sList", id))
     )
   )
 
@@ -109,14 +115,19 @@ insert_block_tab <- \(title, input, output, session){
     delay = 2 * 1000
   )
 
-  sel <- blockr.ui::block_list_server("list")
-
-  observeEvent(sel$dropped(), {
-    print(sel$dropped())
-  })
-
   observeEvent(add_stack$dropped(), { 
-    print(add_stack$dropped())
+    sel <- blockr.ui::block_list_server(
+      sprintf("%sList", id),
+      delay = 2 * 1000
+    )
+
+    new_block <- eventReactive(sel$dropped(), {
+      list(
+        position = NULL,
+        block = available_blocks()[sel$dropped()$index][[1]]
+      )
+    })
+
     stack <- new_stack(
       data_block
     )
@@ -127,7 +138,7 @@ insert_block_tab <- \(title, input, output, session){
       item = generate_ui(stack)
     )
 
-    stack_server <- generate_server(stack)
+    stack_server <- generate_server(stack, new_blocks = new_block)
 
     observeEvent(input[[sprintf("%s_config", grid_id)]], {
       print(input[[sprintf("%s_config", grid_id)]])
@@ -152,7 +163,8 @@ ui <- bslib::page_navbar(
   title = "blockr.save",
   id = "nav",
   header = list(
-    blockr.ui:::dependency("stack"),
+    blockr.ui::dependency("stack"),
+    blockr.ui::dependency("register"),
     masonry::masonryDependencies()
   )
 )
