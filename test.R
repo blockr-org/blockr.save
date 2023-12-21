@@ -175,6 +175,10 @@ server <- \(input, output, session){
 
   observeEvent(input$add, {
     insert_block_tab(input$title, input, output, session)
+    updateTabsetPanel(
+      inputId = "nav",
+      selected = string_to_id(input$title)
+    )
   })
 }
 
