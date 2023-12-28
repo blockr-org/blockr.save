@@ -6,18 +6,14 @@
 \alias{get_json}
 \title{Save the config to a JSON file}
 \usage{
-save_json(env, input, output, session)
+save_json(env, query)
 
-get_json()
+get_json(query)
 }
 \arguments{
 \item{env}{The config environment.}
 
-\item{input}{The input object.}
-
-\item{output}{The output object.}
-
-\item{session}{The session object.}
+\item{query}{Parsed query string.}
 }
 \description{
 Save the config to a JSON file.

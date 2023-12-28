@@ -70,17 +70,15 @@ get_env <- \(){
 #' Save the config to a JSON file.
 #' 
 #' @param env The config environment.
-#' @param input The input object.
-#' @param output The output object.
-#' @param session The session object.
+#' @param query Parsed query string.
 #' 
 #' @name json
 #' 
 #' @export
-save_json <- \(env, input, output, session){
+save_json <- \(env, query){
   jsonlite::write_json(
     env, 
-    "config.json", 
+    ".blockr", 
     dataframe = "rows", 
     auto_unbox = TRUE, 
     pretty = TRUE
@@ -89,6 +87,6 @@ save_json <- \(env, input, output, session){
 
 #' @rdname json
 #' @export
-get_json <- \(){
-  jsonlite::read_json("config.json")
+get_json <- \(query){
+  jsonlite::read_json(".blockr")
 }

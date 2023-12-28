@@ -17,6 +17,7 @@ with_block_app(
 block_app(
   ui,
   server,
+  save_config = save_json,
   get_config = get_json,
   restore_tabs = bs_restore_tabs,
   custom = NULL,
@@ -44,3 +45,4 @@ Must accept \code{config}, \code{input}, \code{output}, and \code{session} argum
 \description{
 An application that uses blocks and will restore state.
 }
+\keyword{internal}

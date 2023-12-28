@@ -182,4 +182,34 @@ server <- \(input, output, session){
   })
 }
 
-block_app(ui, server, enableBookmarking = "url", custom = restore_custom)
+save_conf <- \(env, query){
+  user <- query$user
+
+  file <- ".blockr"
+  if(length(user))
+    file <- sprintf(".%s", user)
+
+  jsonlite::write_json(
+    env, 
+    file, 
+    dataframe = "rows", 
+    auto_unbox = TRUE, 
+    pretty = TRUE
+  )
+}
+
+get_conf <- \(query){
+  file <- ".blockr"
+  if(length(query$user))
+    file <- sprintf(".%s", query$user)
+
+  jsonlite::read_json(file)
+}
+
+block_app(
+  ui, 
+  server,
+  save_config = save_conf,
+  get_config = get_conf,
+  custom = restore_custom
+)

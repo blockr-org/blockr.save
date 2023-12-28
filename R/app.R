@@ -14,7 +14,7 @@
 #'
 #' @name save
 #'
-#' @export
+#' @keywords internal
 with_block_app <- \(
   app, 
   save_config = save_json,
@@ -39,17 +39,17 @@ with_block_app <- \(
 
       if(is.null(app))
         stop("server function must accept ui and server arguments")
+      
+      shiny::onStop(\(){
+        cat("saving to config\n")
+        save_config(get_env(), getOption("query"))
+      })
 
       conf <- tryCatch(
-        get_config(),
+        get_config(getOption("query")),
         error = \(e) NULL,
         warning = \(w) NULL
       )
-      
-      session$onSessionEnded(\(){
-        cat("saving to config\n")
-        save_config(get_env(), input, output, session)
-      })
 
       if(is.null(conf)){
         cat("No config found\n")
@@ -63,7 +63,7 @@ with_block_app <- \(
       restore_tabs(conf, input, output, session)
 
       if(!is.null(custom))
-        custom(conf, input, output, session)
+        custom(conf, input, session)
 
       return(app)
     }
@@ -77,13 +77,21 @@ with_block_app <- \(
 block_app <- \(
   ui, 
   server, 
+  save_config = save_json,
   get_config = get_json, 
   restore_tabs = bs_restore_tabs,
   custom = NULL,
   ...
 ){
-  shiny::shinyApp(ui, server, ...) |>
+  ui_ <- \(req){
+    query_params <- shiny::parseQueryString(req$QUERY_STRING)
+    options("query" = query_params)
+    ui
+  }
+
+  shiny::shinyApp(ui_, server, ...) |>
     with_block_app(
+      save_config = save_config,
       get_config = get_config,
       restore_tabs = restore_tabs,
       custom = custom
