@@ -86,6 +86,10 @@ block_app <- \(
   ui_ <- \(req){
     query_params <- shiny::parseQueryString(req$QUERY_STRING)
     options("query" = query_params)
+
+    if(is.function(ui))
+      ui <- ui(req)
+
     ui
   }
 
