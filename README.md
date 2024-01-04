@@ -37,3 +37,5 @@ server <- function(...){
 blockr_app(ui, server)
 ```
 
+See the `save_config`, and `get_config` arguments of the `blockr_app()`
+app to customise how/where your dashboard data is stored and retrieved.
