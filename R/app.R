@@ -15,7 +15,7 @@
 #' @name save
 #'
 #' @keywords internal
-with_block_app <- \(
+with_blockr_app <- \(
   app, 
   save_config = save_json,
   get_config = get_json,
@@ -74,7 +74,7 @@ with_block_app <- \(
 
 #' @rdname save
 #' @export
-block_app <- \(
+blockr_app <- \(
   ui, 
   server, 
   save_config = save_json,
@@ -94,7 +94,7 @@ block_app <- \(
   }
 
   shiny::shinyApp(ui_, server, ...) |>
-    with_block_app(
+    with_blockr_app(
       save_config = save_config,
       get_config = get_config,
       restore_tabs = restore_tabs,

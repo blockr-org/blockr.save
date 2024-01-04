@@ -2,11 +2,11 @@
 % Please edit documentation in R/app.R
 \name{save}
 \alias{save}
-\alias{with_block_app}
-\alias{block_app}
+\alias{with_blockr_app}
+\alias{blockr_app}
 \title{blockApp}
 \usage{
-with_block_app(
+with_blockr_app(
   app,
   save_config = save_json,
   get_config = get_json,
@@ -14,7 +14,7 @@ with_block_app(
   custom = NULL
 )
 
-block_app(
+blockr_app(
   ui,
   server,
   save_config = save_json,

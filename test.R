@@ -206,7 +206,7 @@ get_conf <- \(query){
   jsonlite::read_json(file)
 }
 
-block_app(
+blockr_app(
   ui, 
   server,
   save_config = save_conf,
