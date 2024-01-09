@@ -9,7 +9,8 @@ options(
 )
 
 stack <- new_stack(
-  data_block
+  data_block,
+  select_block
 )
 
 restore_custom <- \(conf, input, output, session){
@@ -38,9 +39,7 @@ restore_custom <- \(conf, input, output, session){
         )
       })
 
-      stack <- new_stack(
-        data_block
-      )
+      stack <- new_stack()
 
       masonry::masonry_add_item(
         grid_id,
@@ -128,9 +127,7 @@ insert_block_tab <- \(title, input, output, session){
       )
     })
 
-    stack <- new_stack(
-      data_block
-    )
+    stack <- new_stack()
 
     masonry::masonry_add_item(
       sprintf("#%s", grid_id),
