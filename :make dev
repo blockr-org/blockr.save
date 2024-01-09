@@ -27,7 +27,7 @@ restore_custom <- \(conf, input, output, session){
 
     observeEvent(add_stack$dropped(), {
       sel <- blockr.ui::block_list_server(
-        sprintf("%sList", tab$id),
+        sprintf("%sList", id),
         delay = 2 * 1000
       )
 
@@ -174,16 +174,11 @@ server <- \(input, output, session){
   generate_server(stack)
   set_tab_id("nav")
 
-  locked <- reactiveVal(FALSE)
   output$button <- renderUI({
-    if (locked()) return("")
     actionButton("lock", "lock")
   })
 
-  observeEvent(input$lock, {
-    lock()
-    locked(TRUE)
-  })
+  locked <- reactiveVal(FALSE)
 
   observe({
     query <- parseQueryString(session$clientData$url_search)
@@ -192,7 +187,17 @@ server <- \(input, output, session){
       return()
 
     locked(TRUE)
+  })
+
+  output$lock <- renderUI({
+    print(locked())
+    if (locked()) return("")
+    actionButton("lock", "Lock")
+  })
+
+  observeEvent(input$lock, {
     lock()
+    locked(TRUE)
   })
 
   observeEvent(input$add, {
