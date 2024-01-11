@@ -18,6 +18,13 @@ init_conf <- \(conf){
 # idially we'd remove this
 # can be picked up from UI
 # we send to server and send
+#' Set Tab ID
+#' 
+#' Set tab id, the `id` you use for the navbar navigation.
+#' 
+#' @param id ID of navigation.
+#' 
+#' @export
 set_tab_id <- \(id){
   storage$store$tabs$id <- id
 }

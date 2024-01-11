@@ -26,20 +26,6 @@ with_blockr_app <- \(
 
   app$serverFuncSource <- \(){
     \(input, output, session){
-      # fails if user only uses input and output
-      # if fails try without session
-      args <- methods::formalArgs(server_fn)
-
-      app <- NULL
-      if(length(args) == 3L)
-        app <- server_fn(input, output, session)
-      
-      if(length(args) == 2L)
-        app <- server_fn(input, output)
-
-      if(is.null(app))
-        stop("server function must accept ui and server arguments")
-      
       shiny::onStop(\(){
         cat("saving to config\n")
         save_config(get_env(), getOption("query"))
@@ -53,7 +39,7 @@ with_blockr_app <- \(
 
       if(is.null(conf)){
         cat("No config found\n")
-        return(app)
+        return(build_app(server_fn, input, output, session))
       }
 
       cat("loading from config\n")
@@ -65,7 +51,7 @@ with_blockr_app <- \(
       if(!is.null(custom))
         custom(conf, input, session)
 
-      return(app)
+      build_app(server_fn, input, output, session)
     }
   }
 
@@ -100,4 +86,22 @@ blockr_app <- \(
       restore_tabs = restore_tabs,
       custom = custom
     )
+}
+
+build_app <- function(server_fn, input, output, session){
+  # fails if user only uses input and output
+  # if fails try without session
+  args <- methods::formalArgs(server_fn)
+
+  app <- NULL
+  if(length(args) == 3L)
+    app <- server_fn(input, output, session)
+  
+  if(length(args) == 2L)
+    app <- server_fn(input, output)
+
+  if(is.null(app))
+    stop("server function must accept ui and server arguments")
+
+  return(app)
 }

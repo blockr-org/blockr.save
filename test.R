@@ -155,7 +155,6 @@ ui <- bslib::page_navbar(
     h2("subtitle"),
     textInput("title", "Tab title"),
     actionButton("add", "Add tab"),
-    uiOutput("button"),
     generate_ui(stack)
   ),
   title = "blockr.save",
@@ -170,27 +169,6 @@ ui <- bslib::page_navbar(
 server <- \(input, output, session){
   generate_server(stack)
   set_tab_id("nav")
-
-  locked <- reactiveVal(FALSE)
-  output$button <- renderUI({
-    if (locked()) return("")
-    actionButton("lock", "lock")
-  })
-
-  observeEvent(input$lock, {
-    lock()
-    locked(TRUE)
-  })
-
-  observe({
-    query <- parseQueryString(session$clientData$url_search)
-
-    if(is.null(query$locked))
-      return()
-
-    locked(TRUE)
-    lock()
-  })
 
   observeEvent(input$add, {
     if(input$title == ""){
