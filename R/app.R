@@ -28,11 +28,11 @@ with_blockr_app <- \(
     \(input, output, session){
       shiny::onStop(\(){
         cat("saving to config\n")
-        save_config(get_env(), getOption("query"))
+        save_config(get_env(), session, getOption("query"))
       })
 
       conf <- tryCatch(
-        get_config(getOption("query")),
+        get_config(session, getOption("query")),
         error = \(e) NULL,
         warning = \(w) NULL
       )
