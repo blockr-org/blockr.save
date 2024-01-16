@@ -9,7 +9,7 @@ Authors@R:
       person(family = "Bristol Myers Squibb",
            role = c("cph", "fnd"))
     )
-Description: What the package does (one paragraph).
+Description: Save and restore 'blockr' application.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -19,5 +19,6 @@ Imports:
   methods,
   purrr
 Suggests:
+  blockr,
   htmltools,
   jsonlite

@@ -6,12 +6,14 @@
 \alias{get_json}
 \title{Save the config to a JSON file}
 \usage{
-save_json(env, query)
+save_json(env, session, query)
 
-get_json(query)
+get_json(session, query)
 }
 \arguments{
 \item{env}{The config environment.}
+
+\item{session}{A shiny session.}
 
 \item{query}{Parsed query string.}
 }

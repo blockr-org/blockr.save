@@ -68,6 +68,15 @@ set_masonry <- \(tabid, conf){
   storage$store$tabs$tabs[[tabid]]$masonry <- conf
 }
 
+#' Set blockr workspace
+#' 
+#' Set blockr workspace in environment.
+#' 
+#' @export
+set_blockr <- \(){
+  storage$store$workspace <- blockr::to_json()
+}
+
 get_env <- \(){
   storage$store
 }
@@ -78,11 +87,12 @@ get_env <- \(){
 #' 
 #' @param env The config environment.
 #' @param query Parsed query string.
+#' @param session  A shiny session.
 #' 
 #' @name json
 #' 
 #' @export
-save_json <- \(env, query){
+save_json <- \(env, session, query){
   jsonlite::write_json(
     env, 
     ".blockr", 
@@ -94,6 +104,6 @@ save_json <- \(env, query){
 
 #' @rdname json
 #' @export
-get_json <- \(query){
+get_json <- \(session, query){
   jsonlite::read_json(".blockr")
 }
