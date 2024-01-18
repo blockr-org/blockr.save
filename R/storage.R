@@ -4,6 +4,18 @@ storage$store <- list(
   stacks = list()
 )
 
+#' Parse serialised worksplace
+#' 
+#' Parse serialised worksplace and store in environment.
+#' 
+#' @param conf The config object.
+#' 
+#' @export
+parse_blockr <- \(conf){
+  conf$workspace <- blockr::from_json(conf$workspace)
+  return(conf)
+}
+
 #' Store loaded config
 #' 
 #' Store the initially loaded config in the storage environment.

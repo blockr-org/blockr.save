@@ -3,6 +3,7 @@
 export(blockr_app)
 export(bs_restore_tabs)
 export(get_json)
+export(parse_blockr)
 export(save_json)
 export(set_blockr)
 export(set_masonry)

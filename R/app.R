@@ -28,6 +28,7 @@ with_blockr_app <- \(
     \(input, output, session){
       shiny::onStop(\(){
         cat("saving to config\n")
+        set_blockr()
         save_config(get_env(), session, getOption("query"))
       })
 
@@ -44,6 +45,7 @@ with_blockr_app <- \(
 
       cat("loading from config\n")
 
+      conf <- parse_blockr(conf)
       init_conf(conf)
 
       restore_tabs(conf, input, output, session)
