@@ -50,8 +50,15 @@ with_blockr_app <- \(
 
       restore_tabs(conf, input, output, session)
 
+      # it's probably best to run the custom restore
+      # function AFTER we've launched the app.
+      # it is probably assumed that the objects are in the
+      # DOM, etc.
       if(!is.null(custom))
-        custom(conf, input, session)
+        shiny::observeEvent(input$blockrSaveLoaded, {
+          cat("Running custom restore callback\n")
+          custom(conf, input, session)
+        })
 
       build_app(server_fn, input, output, session)
     }
@@ -78,7 +85,7 @@ blockr_app <- \(
     if(is.function(ui))
       ui <- ui(req)
 
-    ui
+    attach_dependency(ui)
   }
 
   shiny::shinyApp(ui_, server, ...) |>
