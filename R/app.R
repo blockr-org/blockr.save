@@ -57,7 +57,7 @@ with_blockr_app <- \(
       if(!is.null(custom))
         shiny::observeEvent(input$blockrSaveLoaded, {
           cat("Running custom restore callback\n")
-          custom(conf, input, session)
+          custom(conf, input, output, session)
         })
 
       build_app(server_fn, input, output, session)
