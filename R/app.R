@@ -34,12 +34,16 @@ with_blockr_app <- \(
 
       conf <- tryCatch(
         get_config(session, getOption("query")),
-        error = \(e) NULL,
-        warning = \(w) NULL
+        error = \(e) e
       )
 
       if(is.null(conf)){
         cat("No config found\n")
+        return(build_app(server_fn, input, output, session))
+      }
+
+      if(inherits(conf, "error")){
+        cat("Error loading config\n")
         return(build_app(server_fn, input, output, session))
       }
 
