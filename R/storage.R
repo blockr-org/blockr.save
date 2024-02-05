@@ -4,6 +4,18 @@ storage$store <- list(
   stacks = list()
 )
 
+#' Reset Config
+#' 
+#' Reset configuration
+#' 
+#' @export
+reset_conf <- \(){
+  storage$store <- list(
+    tabs = list(),
+    stacks = list()
+  )
+}
+
 #' Parse serialised worksplace
 #' 
 #' Parse serialised worksplace and store in environment.
