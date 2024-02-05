@@ -68,6 +68,18 @@ set_tab <- \(label, ..., content = list(), id = label, custom = list()) {
   )
 }
 
+#' Remove tab data
+#' 
+#' Remove a tab's data in the storage environment.
+#' 
+#' @param id ID of tab.
+#' 
+#' @export
+rm_tab <- \(id) {
+  stopifnot(!missing(id))
+  storage$store$tabs$tabs[[id]] <- NULL
+}
+
 #' Set masonry config
 #' 
 #' Set masonry config for a tab in the storage environment.
