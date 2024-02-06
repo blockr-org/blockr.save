@@ -44,6 +44,7 @@ with_blockr_app <- \(
 
       if(inherits(conf, "error")){
         cat("Error loading config\n")
+        print(conf)
         return(build_app(server_fn, input, output, session))
       }
 
