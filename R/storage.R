@@ -89,7 +89,7 @@ set_tab <- \(label, ..., content = list(), id = label, custom = list()) {
 #' @export
 rm_tab <- \(id) {
   stopifnot(!missing(id))
-  storage$store$tabs$tabs[names(storage$store$tabs$tabs) != id]
+  storage$store$tabs$tabs <- storage$store$tabs$tabs[names(storage$store$tabs$tabs) != id]
 }
 
 #' Set masonry config
