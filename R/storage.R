@@ -119,7 +119,13 @@ set_masonry <- \(tabid, conf){
 #' 
 #' @export
 set_blockr <- \(){
-  storage$store$workspace <- blockr::to_json()
+  ws <- blockr::get_workspace()
+  storage$store$workspace <- ws |>
+    ls() |>
+    lapply(get, envir = ws)
+
+  names(storage$store$workspace) <- ws |>
+    ls()
 }
 
 get_env <- \(){
@@ -138,6 +144,8 @@ get_env <- \(){
 #' 
 #' @export
 save_json <- \(env, session, query){
+  env$store$workspace <- blockr::to_json(env$store$workspace)
+
   jsonlite::write_json(
     env, 
     ".blockr", 

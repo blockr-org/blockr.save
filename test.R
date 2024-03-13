@@ -72,7 +72,8 @@ insert_block_tab <- \(title, input, output, session){
     h1(title),
     blockr.ui::addStackUI(
       sprintf("%sAdd", id), 
-      ".masonry-row"
+      "Add row",
+      target = ".masonry-row"
     ),
     br(),
     masonry::masonryGrid(
@@ -135,7 +136,7 @@ insert_block_tab <- \(title, input, output, session){
       item = generate_ui(stack)
     )
 
-    stack_server <- generate_server(stack, new_blocks = new_block)
+    stack_server <- generate_server(stack, new_block = new_block)
 
     observeEvent(input[[sprintf("%s_config", grid_id)]], {
       print(input[[sprintf("%s_config", grid_id)]])
