@@ -21,9 +21,18 @@ reset_conf <- \(){
 #' Parse serialised worksplace and store in environment.
 #' 
 #' @param conf The config object.
+#' @param ... Ignored.
 #' 
 #' @export
-parse_blockr <- \(conf){
+parse_blockr <- \(conf, ...) UseMethod("parse_blockr", conf)
+
+#' @export
+parse_blockr.default <- \(conf, ...){
+  return(conf)
+}
+
+#' @export
+parse_blockr.blockr_conf <- \(conf, ...){
   conf$workspace <- blockr::from_json(conf$workspace)
   return(conf)
 }
@@ -141,5 +150,30 @@ save_json <- \(env, session, query){
 #' @rdname json
 #' @export
 get_json <- \(session, query){
-  jsonlite::read_json(".blockr")
+  jsonlite::read_json(".blockr") |>
+    structure(class = "blockr_conf")
+}
+
+#' Save the config to an RData file
+#' 
+#' Save the config to an RData file.
+#' 
+#' @param env The config environment.
+#' @param query Parsed query string.
+#' @param session  A shiny session.
+#' 
+#' @name json
+#' 
+#' @export
+save_rdata <- \(env, session, query){
+  save(
+    env,
+    file = ".blockr"
+  )
+}
+
+#' @rdname json
+#' @export
+get_rdata <- \(session, query){
+  get(load(".blockr"))
 }

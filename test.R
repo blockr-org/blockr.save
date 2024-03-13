@@ -183,7 +183,7 @@ server <- \(input, output, session){
   })
 }
 
-save_conf <- \(env, query){
+save_conf <- \(env, session, query){
   user <- query$user
 
   file <- ".blockr"
@@ -210,7 +210,7 @@ get_conf <- \(query){
 blockr_app(
   ui, 
   server,
-  save_config = save_conf,
-  get_config = get_conf,
+  save_config = save_rdata,
+  get_config = get_rdata,
   custom = restore_custom
 )

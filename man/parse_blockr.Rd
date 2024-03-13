@@ -4,10 +4,12 @@
 \alias{parse_blockr}
 \title{Parse serialised worksplace}
 \usage{
-parse_blockr(conf)
+parse_blockr(conf, ...)
 }
 \arguments{
 \item{conf}{The config object.}
+
+\item{...}{Ignored.}
 }
 \description{
 Parse serialised worksplace and store in environment.

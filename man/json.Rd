@@ -4,11 +4,17 @@
 \alias{json}
 \alias{save_json}
 \alias{get_json}
+\alias{save_rdata}
+\alias{get_rdata}
 \title{Save the config to a JSON file}
 \usage{
 save_json(env, session, query)
 
 get_json(session, query)
+
+save_rdata(env, session, query)
+
+get_rdata(session, query)
 }
 \arguments{
 \item{env}{The config environment.}
@@ -19,4 +25,6 @@ get_json(session, query)
 }
 \description{
 Save the config to a JSON file.
+
+Save the config to an RData file.
 }
