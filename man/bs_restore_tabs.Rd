@@ -4,12 +4,14 @@
 \alias{bs_restore_tabs}
 \title{Restore Tabs}
 \usage{
-bs_restore_tabs(config, input, output, session)
+bs_restore_tabs(config, input, output, session, query)
 }
 \arguments{
 \item{config}{A config object.}
 
 \item{input, output, session}{Shiny parameters.}
+
+\item{query}{A parsed query string.}
 }
 \description{
 Restore tabs from a config object.

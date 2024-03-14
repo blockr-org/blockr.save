@@ -52,7 +52,7 @@ with_blockr_app <- \(
       conf <- parse_blockr(conf)
       init_conf(conf)
 
-      restore_tabs(conf, input, output, session)
+      restore_tabs(conf, input, output, session, getOption("query"))
 
       # it's probably best to run the custom restore
       # function AFTER we've launched the app.
@@ -61,7 +61,7 @@ with_blockr_app <- \(
       if(!is.null(custom))
         shiny::observeEvent(input$blockrSaveLoaded, {
           cat("Running custom restore callback\n")
-          custom(conf, input, output, session)
+          custom(conf, input, output, session, getOption("query"))
         })
 
       build_app(server_fn, input, output, session)
