@@ -1,4 +1,4 @@
-storage <- new.env()
+storage <- new.env(hash = TRUE)
 storage$store <- list(
   tabs = list(),
   stacks = list()
