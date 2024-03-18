@@ -1,9 +1,3 @@
-storage <- new.env(hash = TRUE)
-storage$store <- list(
-  tabs = list(),
-  stacks = list()
-)
-
 #' Reset Config
 #' 
 #' Reset configuration
@@ -128,6 +122,11 @@ set_blockr <- \(){
     ls()
 }
 
+#' Get Storage
+#' 
+#' Get storage environment
+#' 
+#' @export
 get_env <- \(){
   storage$store
 }
